@@ -78,17 +78,12 @@ NSString *hiddenItemName;
 
 // GAME
 - (void)startGame {
-    @try {
-        self.answerTextField.text = @"";
-        self.answerView.hidden = YES;
-        self.answerTipView.hidden = YES;
-        self.tableData = [[NSMutableArray alloc]init];
-        for(int i=0; i<AMOUNT_OF_WORDS; i++) {
-            [self.tableData addObject:[self.game getRandomWord]];
-        }
-    }
-    @catch (NSException *ex) {
-        NSLog(@"Cannot start the game because of error: %@", ex);
+    self.answerTextField.text = @"";
+    self.answerView.hidden = YES;
+    self.answerTipView.hidden = YES;
+    self.tableData = [[NSMutableArray alloc]init];
+    for(int i=0; i<AMOUNT_OF_WORDS; i++) {
+        [self.tableData addObject:[self.game getRandomWord]];
     }
     [self startTimer];
 }
@@ -102,16 +97,11 @@ NSString *hiddenItemName;
 }
 
 - (BOOL)checkAnswer {
-    @try {
-        if([hiddenItemName isEqualToString:self.answerTextField.text]) {
-            return YES;
-        }
-        else {
-            return NO;
-        }
+    if([hiddenItemName isEqualToString:self.answerTextField.text]) {
+        return YES;
     }
-    @catch (NSException *ex) {
-        NSLog(@"Cannot check the answer because of error: %@", ex);
+    else {
+        return NO;
     }
 }
 
@@ -125,17 +115,11 @@ NSString *hiddenItemName;
 
 // TIMER
 - (void)startTimer {
-    @try {
-        timeLeft = TIMER_INTERVAL;
-        self.timeLeftLabel.title = [NSString stringWithFormat:@"%d",timeLeft];
-        [self.timer invalidate];
-        self.timer = nil;
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countingTimer) userInfo:nil repeats:YES];
-    }
-    @catch (NSException *ex) {
-        NSLog(@"Cannot start the timer because of error: %@", ex);
-    }
-
+    timeLeft = TIMER_INTERVAL;
+    self.timeLeftLabel.title = [NSString stringWithFormat:@"%d",timeLeft];
+    [self.timer invalidate];
+    self.timer = nil;
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countingTimer) userInfo:nil repeats:YES];
 }
 
 - (void)endTimer {
@@ -160,21 +144,16 @@ NSString *hiddenItemName;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    @try {
-        NSString *simpleTableID = @"simpleTableID";
+    NSString *simpleTableID = @"simpleTableID";
     
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableID];
-        cell == nil ? cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableID]:nil;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableID];
+    cell == nil ? cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableID]:nil;
     
-        //NSManagedObject *item = [self.items objectAtIndex:indexPath.row];
-        //[cell.textLabel setText:[NSString stringWithFormat:@"%@", [item valueForKey:@"word"]]];
+    //NSManagedObject *item = [self.items objectAtIndex:indexPath.row];
+    //[cell.textLabel setText:[NSString stringWithFormat:@"%@", [item valueForKey:@"word"]]];
 
-        cell.textLabel.text = [self.tableData objectAtIndex:indexPath.row];
-        return cell;
-    }
-    @catch (NSException *ex) {
-        NSLog(@"Cannot fill the tableView because of error: %@", ex);
-    }
+    cell.textLabel.text = [self.tableData objectAtIndex:indexPath.row];
+    return cell;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
